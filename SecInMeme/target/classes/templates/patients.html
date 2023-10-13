@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="element-transparent">
+    <div layout:fragment="content1">
+     <div class="container mt-2">
+         <div class="card">
+             <div class="card-header">Liste des patients</div>
+             <div class="card-body">
+                 <form class="d-flex" method="get" th:action="@{/user/index}">
+                     <input class="form-control me-2" type="search"  name="keyword" th:value="${keyword}"
+                            placeholder="Entrez le nom de Patient" aria-label="Rechercher">
+                     <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+                 </form>
+                 <table class="table table-striped table-hover">
+                 <thead>
+                         <tr>
+                             <th>ID</th>
+                             <th>Nom</th>
+                             <th>Date Naissance</th>
+                             <th>Malade</th>
+                             <th>Score</th>
+                             <th></th>
+                             <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr th:each="p:${listPatient}">
+                             <td th:text="${p.id}"></td>
+                             <td th:text="${p.nom}"></td>
+                             <td th:text="${p.dateNaiss}"></td>
+                             <td th:text="${p.malade}"></td>
+                             <td th:text="${p.score}"></td>
+                             <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                                 <a onclick="return confirm('Etez vous sure ?')" class="btn btn-danger" th:href="@{/admin/delete(id=${p.id} ,page=${currentPage},keyword=${keyword})}">
+                                     Supprime</a>
+                             </td>
+                             <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                                 <a class="btn btn-success" th:href="@{/admin/editPatient(id=${p.id},keyword=${keyword} ,page=${currentPage})}">
+                                     Edit</a>
+                             </td>
+                         </tr>
+                     </tbody>
+                 </table>
+                 <nav aria-label="Page navigation example">
+                     <ul class="pagination">
+                         <li class="page-item" th:each="p,status:${pages}">
+                             <a class="page-link" th:text="${status.index}"
+                                th:class="${status.index==currentPage}?'btn btn-primary ms-1':'btn page-link ms-1'"
+                                th:href="@{/user/index(page=${status.index},keyword=${keyword})}">
+                             </a>
+                         </li>
+                     </ul>
+                 </nav>
+             </div>
+         </div>
+     </div>
+    </div>
+    </div>
+</body>
+</html>

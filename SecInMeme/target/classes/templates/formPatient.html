@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+  <meta charset="UTF-8">
+  <title>Nouveau Patient</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.1.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div layout:fragment="content1">
+      <div class="container mt-2">
+        <div class="card">
+          <div class="card-header">Nouveau Patient</div>
+          <div class="card-body">
+            <form method="post" th:action="@{/admin/save}" class="form-control">
+              <div class="mb-3">
+                <label for="nom" class="form-label">Nom:</label>
+                <input type="text" class="form-control" id="nom" name="nom" th:value="${patient.nom}">
+                <span class="text-danger" th:errors="${patient.nom}"></span>
+              </div>
+              <div class="mb-3 mt-3">
+                <label  class="form-label">Date Naissance</label>
+                <input class="form-control" type="date" name="DateNaiss" th:value="${patient.dateNaiss}">
+                <span class="text-danger" th:errors="${patient.dateNaiss}"></span>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="malade">
+                <label class="form-check-label" for="malade" th:field="*{patient.malade}">Malade</label>
+                <span class="text-danger" th:errors="${patient.malade}"></span>
+              </div>
+              <div class="mb-3">
+                <label for="score" class="form-label">Score:</label>
+                <input type="text" class="form-control" id="score" name="score" th:value="${patient.score}" >
+                <span class="text-danger" th:errors="${patient.score}"></span>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
